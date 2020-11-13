@@ -52,7 +52,7 @@ module.exports = (req, res) => {
       const b = JSON.parse(rr);
       const ms = Object.values(b.modes).map((m) => `${m.name}, ${m.players}`);
       ms.sort((q, p) => getLike(p) - getLike(q));
-      res.send(ms.join('\n'));
+      res.send(ms.join('; \n'));
     });
   });
 };
