@@ -1,6 +1,4 @@
-const got = require('got');
-const express = require('express');
-const app = express();
+const https = require('https');
 
 const like = {
   'Capture the Flag, 6v6': 4,
@@ -40,15 +38,22 @@ const getLike = (m) => {
 };
 
 const getOW = async () => {
-  const res = await got('https://overwatcharcade.today/api/overwatch/today');
-  const b = JSON.parse(res.body);
-  const ms = Object.values(b.modes).map((m) => `${m.name}, ${m.players}`);
-  ms.sort((q, p) => getLike(p) - getLike(q));
   return ms;
 }
 
-app.get('/', (req, res) => {
-  getOW().then((ms) => res.send(ms.join('\n')));
-});
-
-app.listen(3000);
+module.exports = (req, res) => {
+  const ag = new http.Agent();
+  https.get('https://overwatcharcade.today/api/overwatch/today', (r) => {
+    r.setEncoding('utf8');
+    let rr = '';
+    r.on('data', (ch) => {
+      rr += ch;
+    });
+    r.on('end', () => {
+      const b = JSON.parse(rr);
+      const ms = Object.values(b.modes).map((m) => `${m.name}, ${m.players}`);
+      ms.sort((q, p) => getLike(p) - getLike(q));
+      res.send(ms.join('\n'));
+    });
+  });
+};
