@@ -42,7 +42,6 @@ const getOW = async () => {
 }
 
 module.exports = (req, res) => {
-  const ag = new http.Agent();
   https.get('https://overwatcharcade.today/api/overwatch/today', (r) => {
     r.setEncoding('utf8');
     let rr = '';
