@@ -11,6 +11,7 @@ const like = {
   'Competitive Open Queue, 6v6': 5,
   'Competitive Team Deathmatch, 4v4': 7,
   'Copa Lúcioball, 3v3': 1,
+  'CTF Blitz, 6v6': 7,
   'Deathmatch, 8 Player FFA': 3,
   'Elimination, 3v3': 1,
   'Elimination, 6v6': 2,
