@@ -50,10 +50,22 @@ module.exports = (req, res) => {
       rr += ch;
     });
     r.on('end', () => {
-      const b = JSON.parse(rr);
-      const ms = Object.values(b.modes).map((m) => `${m.name}, ${m.players}`);
-      ms.sort((q, p) => getLike(p) - getLike(q));
-      res.send(ms.join('; \n'));
+      try {
+        const b = JSON.parse(rr);
+        const ms = Object.values(b.modes).map((m) => `${m.name}, ${m.players}`);
+        ms.sort((q, p) => getLike(p) - getLike(q));
+        res.send(ms.join('; \n'));
+      } catch (e) {
+        console.error('Error:', e);
+        console.error(`Status: ${r.status}`);
+        console.error('Data:', rr);
+        res.status(500).json({
+          msg: e.message,
+          stack: ''+e,
+          status: r.status,
+          body: rr,
+        });
+      }
     });
   });
 };
